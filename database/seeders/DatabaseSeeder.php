@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\student;
+use App\Models\Student;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         student::factory(10)->create();
-        
+        $studentsToCreate = 100 - Student::query()->count();
+
+        if ($studentsToCreate > 0) {
+            Student::factory()->count($studentsToCreate)->create();
+        }
     }
 }

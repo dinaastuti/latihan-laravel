@@ -9,50 +9,56 @@ class StudentController extends Controller
 {
     public function index()
     {
-        return view('student.index', [
-            'title' => 'Student',
-            'students' => Student::latest()->get(),
-        ]);
+        $students = Student::query()
+            ->orderBy('id')
+            ->limit(100)
+            ->get();
+        $title = 'Daftar Mahasiswa';
+
+        return view('student.index', compact('students', 'title'));
     }
 
     public function create()
     {
-        return view('student.create', [
-            'title' => 'Create Student'
-        ]);
+        return view('student.create');
     }
 
-     
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'nim' => 'required',
+        ]);
 
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required',
-        'nim' => 'required|numeric',
-    ],
-    [
-        'name.required' => 'Nama wajib di input',
-        'nim.required' => 'NIM wajib di input',
-        'nim.numeric' => 'NIM wajib berupa angka',
-    ]);
+        Student::create($request->all());
 
-    // Simpan data ke database
-    Student::create($validated);
+        return redirect('/student');
+    }
 
-    return redirect('/student');
+    public function edit($id)
+    {
+        $student = Student::findOrFail($id);
+
+        return view('student.edit', compact('student'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $student = Student::findOrFail($id);
+
+        $student->update($request->all());
+
+        return redirect()
+            ->route('student.index')
+            ->with('success', 'Data berhasil diubah.');
+    }
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+
+        return redirect()
+            ->route('student.index')
+            ->with('success', 'Data berhasil dihapus.');
+    }
 }
-
-}
-
-    
-
-
-
-
-    // The blog post is valid...
- 
-    return redirect('/student');
-{
-
-}
-  

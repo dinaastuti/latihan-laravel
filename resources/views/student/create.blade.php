@@ -1,28 +1,85 @@
 <x-app>
-    <x-slot:title>{{ $title }}</x-slot>
+    <x-slot:title>Create Student</x-slot:title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-    <form method="POST" action="{{ route('student.store') }}">
-        @csrf
+        .header-student {
+            background: #0866f5;
+            color: white;
+            text-align: center;
+            padding: 65px 20px;
+        }
 
+        .header-student h1 {
+            font-size: 50px;
+            font-weight: bold;
+            margin: 0;
+        }
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control "@error('name') is-invalid @enderror" id="name" name="name">
-            @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        .form-student {
+            margin: 70px 5%;
+        }
 
-        <div class="mb-3">
-            <label for="nim" class="form-label">NIM</label>
-            <input type="text" class="form-control""@error('nim') is-invalid @enderror" id="nim"
-                name="nim">
-            @error('nim')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
+        .form-student label {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
 
-        <a class="btn btn-warning" href="{{ route('student.index') }}" role="button">Back</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        .form-student input {
+            width: 100%;
+            padding: 14px;
+            font-size: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .btn-back {
+            background: #ffbb00;
+            color: black;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .btn-submit {
+            background: #0866f5;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="header-student">
+        <h1>Create Student</h1>
+    </div>
+
+    <div class="form-student">
+
+        <form action="{{ route('student.store') }}" method="POST">
+            @csrf
+
+            <label>Name</label>
+            <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan Nama" required>
+
+            <label>NIM</label>
+            <input type="text" name="nim" value="{{ old('nim') }}" placeholder="Masukkan NIM" required>
+
+            <a href="{{ route('student.index') }}" class="btn-back">Back</a>
+
+            <button type="submit" class="btn-submit">
+                Submit
+            </button>
+        </form>
+
+    </div>
 </x-app>
